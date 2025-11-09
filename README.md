@@ -151,7 +151,7 @@
     &lt;head&gt;
         &lt;style&gt;
             body {background-color:#111111;}
-            h1 {color:#0080ff; font-family:brush script;}
+            h1 {<text color="00ffff"">color</text>:#0080ff; font-family:brush script;}
             p {color:#ffff00; text-align:center; font-size:5px;}
         &lt;/style&gt;
     &lt;/head&gt;
