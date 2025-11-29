@@ -1,5 +1,16 @@
 <html>
-    <head>
-        <link rel="stylesheet" href="Light_mode.css">
-    </head>
+    <body>
+        <p id="hi">
+            Ground
+        </p>
+        <button type="button" onclick="hi">
+            hi
+        </button>
+    </body>
+    <script>
+        function hi()
+        {
+         htmdocument.getElementById("hi").innerHTML="Sky";
+        {
+    </script>
 </html>
