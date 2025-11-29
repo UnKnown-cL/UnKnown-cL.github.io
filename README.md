@@ -10,7 +10,7 @@
     <script>
         function hi()
         {
-         htmdocument.getElementById("hi").innerHTML="Sky";
+         document.getElementById("hi").innerHTML="Sky";
         {
     </script>
 </html>
