@@ -118,12 +118,68 @@
                 position: sticky;
                 top:0;
             }
+            div#timetable
+            {
+                display:none;
+            }
+            #timetable div
+            {
+                width:100%;
+                height:75px;
+                border: hidden;
+                background-image: linear-gradient(45deg, red,yellow,cyan);
+                box-sizing: border-box;
+                position: sticky;
+                top:0;
+            }
+            div#calendar
+            {
+                display:none;
+            }
+            #calendar div
+            {
+                width:100%;
+                height:75px;
+                border: hidden;
+                background-image: linear-gradient(45deg, red,green,blue);
+                box-sizing: border-box;
+                position: sticky;
+                top:0;
+            }
+            div#schoolnews
+            {
+                display:none;
+            }
+            #schoolnews div
+            {
+                width:100%;
+                height:75px;
+                border: hidden;
+                background-image: conic-gradient(red,cyan,blue);
+                box-sizing: border-box;
+                position: sticky;
+                top:0;
+            }
+            div#externallinks
+            {
+                display:none;
+            }
+            #externallinks div
+            {
+                width:100%;
+                height:75px;
+                border: hidden;
+                background-image: conic-gradient(yellow,cyan,magenta);
+                box-sizing: border-box;
+                position: sticky;
+                top:0;
+            }
         </style>
     </head>
     <body>
         <div id="head">
             <h1>
-                E-Campus
+                E-Planner
             </h1>
         </div>
         <div id="menu">
@@ -164,12 +220,29 @@
             <button type="button" onclick="redirect('forum')">
                 forum
             </button>
+            <button type="button" onclick="redirect('schoolnews')">
+                school news
+            </button>
+            <hr>
+            <button type="button" onclick="redirect('notebook')">
+                notebook
+            </button>
+            <button type="button" onclick="redirect('externallinks')">
+                external links
+            </button>
             <hr>
             <button type="button" onclick="redirect('to_do_list')">
                 to_do_list
             </button>
-            <button type="button" onclick="redirect('notebook')">
-                notebook
+            <button type="button" onclick="redirect('assignment')">
+                assignments
+            </button>
+            <hr>
+            <button type="button" onclick="redirect('timetable')">
+                timetable
+            </button>
+            <button type="button" onclick="redirect('calendar')">
+                calendar
             </button>
             <hr class="c2">
             <button type="button" onclick="sign_out()">
@@ -233,6 +306,66 @@
             </div>
             <p id="assignment_text"/>
         </div>
+        <div id="timetable">
+            <div>
+                <input id="timetable_input" value="type timetable to add or # for removal"/>
+                <button type="button" onclick="Timetable('add')">
+                    add timetable event
+                </button>
+                <button type="button" onclick="Timetable('remove')">
+                    remove event by #
+                </button>
+                <button type="button" onclick="main()">
+                    back
+                </button>
+            </div>
+            <p id="timetable_text"/>
+        </div>
+        <div id="calendar">
+            <div>
+                <input id="calendar_input" value="type day events to add or # for removal"/>
+                <button type="button" onclick="Calendar('add')">
+                    add day event
+                </button>
+                <button type="button" onclick="Calendar('remove')">
+                    remove day event by #
+                </button>
+                <button type="button" onclick="main()">
+                    back
+                </button>
+            </div>
+            <p id="calendar_text"/>
+        </div>
+        <div id="schoolnews">
+            <div>
+                <input id="schoolnews_input" value="type school news to add or # for removal"/>
+                <button type="button" onclick="Schoolnews('add')">
+                    add school news
+                </button>
+                <button type="button" onclick="Schoolnews('remove')">
+                    remove school news
+                </button>
+                <button type="button" onclick="main()">
+                    back
+                </button>
+            </div>
+            <p id="schoolnews_text"/>
+        </div>
+        <div id="externallinks">
+            <div>
+                <input id="externallinks_input" value="type external links to add or # for removal"/>
+                <button type="button" onclick="Externallinks('add')">
+                    add external link
+                </button>
+                <button type="button" onclick="Externallinks('remove')">
+                    remove external link
+                </button>
+                <button type="button" onclick="main()">
+                    back
+                </button>
+            </div>
+            <p id="externallinks_text"/>
+        </div>
     </body>
     <script>
         let second="",minute="",hour="",day="",month="",year="",time="",now="";
@@ -242,6 +375,10 @@
         let tdl_db=[],to_do_list=[],to_do_list_input="";
         let note_db=[],note=[],note_input="";
         let assignment_db=[],assignment=[],assignment_input="";
+        let timetable_db=[],timetable=[],timetable_input="";
+        let calendar_db=[],calendar=[],calendar_input="";
+        let schoolnews_db=[],schoolnews=[],schoolnews_input="";
+        let externallinks_db=[],externallinks=[],externallinks_input="";
         function getTime()
         {
             now = new Date();
@@ -318,12 +455,12 @@
                 user_class=document. getElementById("class"). value;
                 if(userpost!="class teacher")
                 {
-                user_cn=document. getElementById("cn"). value;
-                identifier=user_class+","+userpost;
+                    user_cn=document. getElementById("cn"). value;
+                    identifier=user_class+","+user_cn+","+userpost;
                 }
                 else
                 {
-                    identifier=user_class+","+user_cn+","+userpost;
+                    identifier=user_class+","+userpost;
                 }
             }
             else
@@ -346,6 +483,11 @@
             document. getElementById("forum"). style. display="none";
             document. getElementById("to_do_list"). style. display="none";
             document. getElementById("notebook"). style. display="none";
+            document. getElementById("assignment"). style. display="none";
+            document. getElementById("timetable").style.display="none";
+            document. getElementById("calendar").style.display="none";
+            document. getElementById("schoolnews").style.display="none";
+            document. getElementById("externallinks").style.display="none";
         }
         function redirect(site)
         {
@@ -364,6 +506,36 @@
             }
             note=note_db[iden_no];
             print(note,"note_text","order");
+            if(assignment_db[iden_no]==undefined)
+            {
+                assignment_db[iden_no]=[];
+            }
+            assignment=assignment_db[iden_no];
+            print(assignment,"assignment_text","order");
+            if(timetable_db[iden_no]==undefined)
+            {
+                timetable_db[iden_no]=[];
+            }
+            timetable=timetable_db[iden_no];
+            print(timetable,"timetable_text","order");
+            if(calendar_db[iden_no]==undefined)
+            {
+                calendar_db[iden_no]=[];
+            }
+            calendar=calendar_db[iden_no];
+            print(calendar,"calendar_text","order");
+            if(schoolnews_db[iden_no]==undefined)
+            {
+                schoolnews_db[iden_no]=[];
+            }
+            schoolnews=schoolnews_db[iden_no];
+            print(schoolnews,"schoolnews_text","order");
+            if(externallinks_db[iden_no]==undefined)
+            {
+                externallinks_db[iden_no]=[];
+            }
+            externallinks=externallinks_db[iden_no];
+            print(externallinks,"externallinks_text","order");
         }
         function forum_post()
         {
@@ -390,6 +562,30 @@
             assignment=list_modify(assignment,"assignment_input",action);
             assignment_db[iden_no]=assignment;
             print(assignment,"assignment_text","order");
+        }
+        function Timetable(action)
+        {
+            timetable=list_modify(timetable,"timetable_input",action);
+            timetable_db[iden_no]=timetable;
+            print(timetable,"timetable_text","order");
+        }
+        function Calendar(action)
+        {
+            calendar=list_modify(calendar,"calendar_input",action);
+            calendar_db[iden_no]=calendar;
+            print(calendar,"calendar_text","order");
+        }
+        function Schoolnews(action)
+        {
+            schoolnews=list_modify(schoolnews,"schoolnews_input",action);
+            schoolnews_db[iden_no]=schoolnews;
+            print(schoolnews,"schoolnews_text","order");
+        }
+        function Externallinks(action)
+        {
+            externallinks=list_modify(externallinks,"externallinks_input",action);
+            externallinks_db[iden_no]=externallinks;
+            print(externallinks,"externallinks_text","order");
         }
         function sign_out()
         {
