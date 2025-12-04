@@ -52,7 +52,7 @@
             div#main
             {
                 width:300px;
-                height:800px;
+                height:3000px;
                 border: double;
                 box-sizing: border-box;
                 display: none;
@@ -217,6 +217,7 @@
         <div id="main">
             <p id="greeting"/>
             <hr class="c2">
+            <p>Communication</p>
             <button type="button" onclick="redirect('forum')">
                 forum
             </button>
@@ -224,6 +225,7 @@
                 school news
             </button>
             <hr>
+            <p>Learning and studying</p>
             <button type="button" onclick="redirect('notebook')">
                 notebook
             </button>
@@ -231,6 +233,7 @@
                 external links
             </button>
             <hr>
+            <p>tasks-related</p>
             <button type="button" onclick="redirect('to_do_list')">
                 to_do_list
             </button>
@@ -238,6 +241,7 @@
                 assignments
             </button>
             <hr>
+            <p>time arrangements</p>
             <button type="button" onclick="redirect('timetable')">
                 timetable
             </button>
