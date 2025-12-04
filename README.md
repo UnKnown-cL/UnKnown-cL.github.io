@@ -6,6 +6,10 @@
                 height:5px;
                 background-image: linear-gradient(to right,green,cyan);
             }
+            #main button
+            {
+                text-size:25px;
+            }
             div#head
             {
                 width:100%;
@@ -341,13 +345,10 @@
             <p id="calendar_text"/>
         </div>
         <div id="schoolnews">
-            <div>
+            <div id="newspost">
                 <input id="schoolnews_input" value="type school news to add or # for removal"/>
                 <button type="button" onclick="Schoolnews('add')">
                     add school news
-                </button>
-                <button type="button" onclick="Schoolnews('remove')">
-                    remove school news
                 </button>
                 <button type="button" onclick="main()">
                     back
@@ -381,7 +382,7 @@
         let assignment_db=[],assignment=[],assignment_input="";
         let timetable_db=[],timetable=[],timetable_input="";
         let calendar_db=[],calendar=[],calendar_input="";
-        let schoolnews_db=[],schoolnews=[],schoolnews_input="";
+        let schoolnews=[],schoolnews_input="";
         let externallinks_db=[],externallinks=[],externallinks_input="";
         function getTime()
         {
@@ -421,6 +422,11 @@
             {
                 list.splice(parseInt(input)-1,1);
             }
+            if(action=="add at")
+                {
+                    getTime();
+                    list.push(input+" "+time);
+                }
             return list;
         }
         function user_post()
@@ -498,6 +504,10 @@
             document. getElementById("main"). style. display="none";
             document. getElementById("head"). style. display="none";
             document. getElementById(site). style. display="block";
+            if(userpost=="student")
+            {
+                document. getElementById("newspost"). style. display="none";
+            }
             if(tdl_db[iden_no]==undefined)
             {
                 tdl_db[iden_no]=[];
@@ -528,12 +538,6 @@
             }
             calendar=calendar_db[iden_no];
             print(calendar,"calendar_text","order");
-            if(schoolnews_db[iden_no]==undefined)
-            {
-                schoolnews_db[iden_no]=[];
-            }
-            schoolnews=schoolnews_db[iden_no];
-            print(schoolnews,"schoolnews_text","order");
             if(externallinks_db[iden_no]==undefined)
             {
                 externallinks_db[iden_no]=[];
@@ -579,11 +583,10 @@
             calendar_db[iden_no]=calendar;
             print(calendar,"calendar_text","order");
         }
-        function Schoolnews(action)
+        function Schoolnews()
         {
-            schoolnews=list_modify(schoolnews,"schoolnews_input",action);
-            schoolnews_db[iden_no]=schoolnews;
-            print(schoolnews,"schoolnews_text","order");
+            schoolnews=list_modify(schoolnews,"schoolnews_input","add at");
+            print(schoolnews,"schoolnews_text","unorder");
         }
         function Externallinks(action)
         {
